@@ -1,7 +1,7 @@
 import time
 
 # Ask the user if they want to start the timer at a specific time or an interval
-start_option = input("Do you want to start the timer at a specific time (t) or an interval (i)? ")
+start_option = input("Do you want to start the timer at a specific time (t)? Press enter to start at 0. ")
 
 if start_option.lower() == "t":
     # If the user wants to start the timer at a specific time, ask them for the time in seconds
@@ -22,10 +22,10 @@ if start_option.lower() == "t":
                 stopwatch_start = time.time()
                 break  # Exit the loop
     # End of loop
-elif start_option.lower() == "i":
-    # If the user wants to start the timer at an interval, ask them for the interval in seconds
-    interval = float(input("Enter the interval in seconds: "))
-    stopwatch_start = time.time() - interval
+elif start_option == "":
+    # If the user only hits enter, start the timer at 0 seconds
+    print("Starting timer at 0 seconds.")
+    stopwatch_start = time.time()
 else:
     # If the user enters an invalid option, start the timer at 0 seconds
     print("Invalid option. Starting timer at 0 seconds.")
