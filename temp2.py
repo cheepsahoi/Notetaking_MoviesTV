@@ -10,6 +10,7 @@ if start_option.lower() == "s":
         try:
             # Attempt to parse the user's input as a time object in seconds
             start_time = time.mktime(time.strptime(start_time_input, "%H:%M:%S"))
+            start_time += 3600
             stopwatch_start = time.time() - start_time
             break  # Exit the loop if the input is valid
         except ValueError:
@@ -55,6 +56,7 @@ while True:
                 # Attempt to parse the user's input as a time object in seconds
                 new_start_time = time.mktime(time.strptime(new_start_time_input, "%H:%M:%S"))
                 stopwatch_start = time.time() - new_start_time
+                stopwatch_start += 3600
                 break  # Exit the loop if the input is valid
             except ValueError:
                 # If the user's input is not in the correct format, give them another chance to retry or return to the main menu
