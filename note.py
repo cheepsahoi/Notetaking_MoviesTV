@@ -1,9 +1,9 @@
 import time
 
 # Ask the user if they want to start the timer at a specific time or an interval
-start_option = input("Do you want to start the timer at a specific time (s) or an interval (i)? ")
+start_option = input("Do you want to start the timer at a specific time (t)? Press enter to start at 0. ")
 
-if start_option.lower() == "s":
+if start_option.lower() == "t":
     # If the user wants to start the timer at a specific time, ask them for the time in seconds
     while True:
         start_time_input = input("Enter the start time in HH:MM:SS format: ")
@@ -22,10 +22,10 @@ if start_option.lower() == "s":
                 stopwatch_start = time.time()
                 break  # Exit the loop
     # End of loop
-elif start_option.lower() == "i":
-    # If the user wants to start the timer at an interval, ask them for the interval in seconds
-    interval = float(input("Enter the interval in seconds: "))
-    stopwatch_start = time.time() - interval
+elif start_option == "":
+    # If the user only hits enter, start the timer at 0 seconds
+    print("Starting timer at 0 seconds.")
+    stopwatch_start = time.time()
 else:
     # If the user enters an invalid option, start the timer at 0 seconds
     print("Invalid option. Starting timer at 0 seconds.")
@@ -43,8 +43,8 @@ while True:
     stopwatch_formatted = time.strftime("%H:%M:%S", stopwatch_struct_time)
     print("Stopwatch: {}".format(stopwatch_formatted))
     
-    # Ask the user if they want to add a note, adjust the start time, or continue the stopwatch
-    user_input = input("Press 'n' to add a note, 's' to adjust the start time, 'q' to quit, or any other key to continue: ")
+    # Ask the user if they want to add a note, adjust the time, or continue the stopwatch
+    user_input = input("Press 'n' to add a note, 't' to adjust the time, 'q' to quit, or any other key to continue: ")
     
     # Handle the user's input
     if user_input.lower() == 'n':
@@ -56,7 +56,7 @@ while True:
         # Resume the timer from the current time after the user is finished inputting data
         stopwatch_start += time.time() - current_time
         current_time = stopwatch_start
-    elif user_input.lower() == 's':
+    elif user_input.lower() == 't':
         # Record the current time as the time when the user started inputting data
         current_time = time.time()
         # If the user wants to adjust the start time, ask them for the new start time
@@ -87,6 +87,6 @@ while True:
         time.sleep(0.1)
 
 #Print out the notes and the stopwatch times when each note was taken
-print("Notes:")
+print("Notes:\n")
 for note in notes:
     print("{} - {}".format(note[0], note[1]))

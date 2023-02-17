@@ -87,6 +87,6 @@ while True:
         time.sleep(0.1)
 
 #Print out the notes and the stopwatch times when each note was taken
-print("Notes:")
+print("Notes:\n")
 for note in notes:
     print("{} - {}".format(note[0], note[1]))
