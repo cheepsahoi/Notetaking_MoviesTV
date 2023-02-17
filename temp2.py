@@ -33,6 +33,9 @@ else:
 
 notes = []  # Initialize an empty list for notes
 
+# Initialize the current time to the stopwatch start time
+current_time = stopwatch_start
+
 while True:
     # Display the current stopwatch time in the HH:MM:SS format
     stopwatch_current = time.time() - stopwatch_start
@@ -45,10 +48,17 @@ while True:
     
     # Handle the user's input
     if user_input.lower() == 'n':
+        # Record the current time as the time when the user started inputting data
+        current_time = time.time()
         # If the user wants to add a note, ask them for the note text and append it to the notes list along with the current stopwatch time
         note_text = input("Enter note text: ")
         notes.append((stopwatch_formatted, note_text))
+        # Resume the timer from the current time after the user is finished inputting data
+        stopwatch_start += time.time() - current_time
+        current_time = stopwatch_start
     elif user_input.lower() == 's':
+        # Record the current time as the time when the user started inputting data
+        current_time = time.time()
         # If the user wants to adjust the start time, ask them for the new start time
         while True:
             new_start_time_input = input("Enter the new start time in HH:MM:SS format: ")
@@ -64,6 +74,9 @@ while True:
                 if retry_input.lower() == 'm':
                     # If the user wants to return to the main menu, break out of the loop and continue the stopwatch
                     break
+        # Resume the timer from the current time after the user is finished inputting data
+        stopwatch_start += time.time() - current_time
+        current_time = stopwatch_start
     elif user_input.lower() == 'q':
         # If the user wants to quit, break out of the loop
         break
