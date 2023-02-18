@@ -4,7 +4,7 @@ import tkinter as tk
 class StopwatchGUI:
     def __init__(self, master):
         self.master = master
-        master.title("Stopwatch")
+        master.title("Film Notetaking")
         
         # Create the widgets for the GUI
         self.note_label = tk.Label(master, text="Notes:", font=("Arial", 18))
@@ -22,6 +22,8 @@ class StopwatchGUI:
         self.time_button = tk.Button(master, text="Set Time", command=self.set_time)
         self.time_button.pack(pady=10)
         self.note_text.config(state="disabled")
+        self.note_label = tk.Label(master, text="Enter Notes below then press 'enter'", font=("Arial", 12))
+        self.note_label.pack(pady=10)
         self.note_entry = tk.Entry(master, width=50)
         self.note_entry.pack(pady=10)
         self.note_entry.bind('<Return>', self.add_note)
