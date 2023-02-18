@@ -27,7 +27,6 @@ class StopwatchGUI:
         self.note_entry.bind('<Return>', self.add_note)
         self.pause_button = tk.Button(master, text="Pause", command=self.pause_stopwatch)
         self.pause_button.pack(pady=10)
-        
         self.start_stopwatch()
     
     def start_stopwatch(self):
