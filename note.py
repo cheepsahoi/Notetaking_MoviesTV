@@ -60,11 +60,13 @@ class StopwatchGUI:
         self.current_time = self.stopwatch_start
 
     def copy_notes(self):
+        sorted_notes = sorted(self.notes, key=lambda note: note[0])
         notes_str = ""
-        for note in self.notes:
+        for note in sorted_notes:
             notes_str += note[0] + " - " + note[1] + "\n"
         self.master.clipboard_clear()
         self.master.clipboard_append(notes_str)
+
 
     def add_note(self, event=None):
         if self.pause_start:
