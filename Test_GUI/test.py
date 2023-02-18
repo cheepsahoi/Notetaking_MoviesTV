@@ -9,6 +9,12 @@ class StopwatchGUI:
         # Create the widgets for the GUI
         self.stopwatch_label = tk.Label(master, text="Stopwatch: 00:00:00", font=("Arial", 24))
         self.stopwatch_label.pack(pady=10)
+        self.time_label = tk.Label(master, text="Set Time:", font=("Arial", 18))
+        self.time_label.pack(pady=10)
+        self.time_entry = tk.Entry(master, width=50)
+        self.time_entry.pack(pady=10)
+        self.time_button = tk.Button(master, text="Set Time", command=self.set_time)
+        self.time_button.pack(pady=10)
         self.note_label = tk.Label(master, text="Notes:", font=("Arial", 18))
         self.note_label.pack(pady=10)
         self.note_text = tk.Text(master, height=10, width=50)
@@ -39,6 +45,17 @@ class StopwatchGUI:
         self.stopwatch_label.config(text="Stopwatch: " + stopwatch_formatted)
         self.master.after(100, self.update_stopwatch_label)
     
+    def set_time(self):
+        time_str = self.time_entry.get()
+        try:
+            time_seconds = sum(x * int(t) for x, t in zip([3600, 60, 1], time_str.split(":")))
+        except ValueError:
+            self.time_entry.delete(0, tk.END)
+            return
+        self.stopwatch_start = time.time() - time_seconds
+        self.pause_start = None
+        self.current_time = self.stopwatch_start
+
     def add_note(self, event=None):
         if self.pause_start:
             note_time = self.pause_start - self.stopwatch_start
