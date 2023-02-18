@@ -9,9 +9,9 @@ class StopwatchGUI:
         # Create the widgets for the GUI
         self.stopwatch_label = tk.Label(master, text="Stopwatch: 00:00:00", font=("Arial", 24))
         self.stopwatch_label.pack(pady=10)
-        self.time_label = tk.Label(master, text="Set Time:", font=("Arial", 18))
+        self.time_label = tk.Label(master, text="Set Time: (HH:MM:SS)", font=("Arial", 18))
         self.time_label.pack(pady=10)
-        self.time_entry = tk.Entry(master, width=50)
+        self.time_entry = tk.Entry(master, width=8)
         self.time_entry.pack(pady=10)
         self.time_button = tk.Button(master, text="Set Time", command=self.set_time)
         self.time_button.pack(pady=10)
