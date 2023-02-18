@@ -82,9 +82,10 @@ class StopwatchGUI:
     def update_note_text(self):
         self.note_text.config(state="normal")
         self.note_text.delete("1.0", tk.END)
-        for note in self.notes:
+        for note in reversed(self.notes):
             self.note_text.insert(tk.END, note[0] + " - " + note[1] + "\n")
         self.note_text.config(state="disabled")
+
     
     def pause_stopwatch(self):
         if self.pause_start:
