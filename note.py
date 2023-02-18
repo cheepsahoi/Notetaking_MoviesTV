@@ -7,6 +7,12 @@ class StopwatchGUI:
         master.title("Stopwatch")
         
         # Create the widgets for the GUI
+        self.note_label = tk.Label(master, text="Notes:", font=("Arial", 18))
+        self.note_label.pack(pady=10)
+        self.note_text = tk.Text(master, height=10, width=50)
+        self.note_text.pack(pady=10)
+        self.copy_button = tk.Button(master, text="Copy Notes to Clipboard", command=self.copy_notes)
+        self.copy_button.pack(pady=10)
         self.stopwatch_label = tk.Label(master, text="Stopwatch: 00:00:00", font=("Arial", 24))
         self.stopwatch_label.pack(pady=10)
         self.time_label = tk.Label(master, text="Set Time: (HH:MM:SS)", font=("Arial", 18))
@@ -15,12 +21,6 @@ class StopwatchGUI:
         self.time_entry.pack(pady=10)
         self.time_button = tk.Button(master, text="Set Time", command=self.set_time)
         self.time_button.pack(pady=10)
-        self.note_label = tk.Label(master, text="Notes:", font=("Arial", 18))
-        self.note_label.pack(pady=10)
-        self.note_text = tk.Text(master, height=10, width=50)
-        self.note_text.pack(pady=10)
-        self.copy_button = tk.Button(master, text="Copy Notes to Clipboard", command=self.copy_notes)
-        self.copy_button.pack(pady=10)
         self.note_text.config(state="disabled")
         self.note_entry = tk.Entry(master, width=50)
         self.note_entry.pack(pady=10)
@@ -54,8 +54,10 @@ class StopwatchGUI:
         except ValueError:
             self.time_entry.delete(0, tk.END)
             return
-        self.stopwatch_start = time.time() - time_seconds
-        self.pause_start = None
+        if self.pause_start:  # Check if stopwatch was paused
+            self.stopwatch_start = self.pause_start - time_seconds
+        else:
+            self.stopwatch_start = time.time() - time_seconds
         self.current_time = self.stopwatch_start
 
     def copy_notes(self):
