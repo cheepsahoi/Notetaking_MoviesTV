@@ -1,92 +1,89 @@
 import time
+import tkinter as tk
 
-# Ask the user if they want to start the timer at a specific time or an interval
-start_option = input("Do you want to start the timer at a specific time (t)? Press enter to start at 0. ")
-
-if start_option.lower() == "t":
-    # If the user wants to start the timer at a specific time, ask them for the time in seconds
-    while True:
-        start_time_input = input("Enter the start time in HH:MM:SS format: ")
+class StopwatchGUI:
+    def __init__(self, master):
+        self.master = master
+        master.title("Stopwatch")
+        
+        # Create the widgets for the GUI
+        self.stopwatch_label = tk.Label(master, text="Stopwatch: 00:00:00", font=("Arial", 24))
+        self.stopwatch_label.pack(pady=10)
+        self.time_label = tk.Label(master, text="Set Time: (HH:MM:SS)", font=("Arial", 18))
+        self.time_label.pack(pady=10)
+        self.time_entry = tk.Entry(master, width=8)
+        self.time_entry.pack(pady=10)
+        self.time_button = tk.Button(master, text="Set Time", command=self.set_time)
+        self.time_button.pack(pady=10)
+        self.note_label = tk.Label(master, text="Notes:", font=("Arial", 18))
+        self.note_label.pack(pady=10)
+        self.note_text = tk.Text(master, height=10, width=50)
+        self.note_text.pack(pady=10)
+        self.note_text.config(state="disabled")
+        self.note_entry = tk.Entry(master, width=50)
+        self.note_entry.pack(pady=10)
+        self.note_entry.bind('<Return>', self.add_note)
+        self.pause_button = tk.Button(master, text="Pause", command=self.pause_stopwatch)
+        self.pause_button.pack(pady=10)
+        
+        self.start_stopwatch()
+    
+    def start_stopwatch(self):
+        self.stopwatch_start = time.time()
+        self.pause_start = None
+        self.current_time = self.stopwatch_start
+        self.notes = []
+        self.update_stopwatch_label()
+    
+    def update_stopwatch_label(self):
+        if self.pause_start:
+            stopwatch_current = self.pause_start - self.stopwatch_start
+        else:
+            stopwatch_current = time.time() - self.stopwatch_start
+        stopwatch_struct_time = time.gmtime(stopwatch_current)
+        stopwatch_formatted = time.strftime("%H:%M:%S", stopwatch_struct_time)
+        self.stopwatch_label.config(text="Stopwatch: " + stopwatch_formatted)
+        self.master.after(100, self.update_stopwatch_label)
+    
+    def set_time(self):
+        time_str = self.time_entry.get()
         try:
-            # Attempt to parse the user's input as a time object in seconds
-            start_time = time.mktime(time.strptime(start_time_input, "%H:%M:%S"))
-            start_time += 3600
-            stopwatch_start = time.time() - start_time
-            break  # Exit the loop if the input is valid
+            time_seconds = sum(x * int(t) for x, t in zip([3600, 60, 1], time_str.split(":")))
         except ValueError:
-            # If the user's input is not in the correct format, give them a chance to retry
-            retry_input = input("Invalid format. Do you want to retry (y/n)? ")
-            if retry_input.lower() != 'y':
-                # If the user doesn't want to retry, start the timer at 0 seconds
-                print("Starting timer at 0 seconds.")
-                stopwatch_start = time.time()
-                break  # Exit the loop
-    # End of loop
-elif start_option == "":
-    # If the user only hits enter, start the timer at 0 seconds
-    print("Starting timer at 0 seconds.")
-    stopwatch_start = time.time()
-else:
-    # If the user enters an invalid option, start the timer at 0 seconds
-    print("Invalid option. Starting timer at 0 seconds.")
-    stopwatch_start = time.time()
+            self.time_entry.delete(0, tk.END)
+            return
+        self.stopwatch_start = time.time() - time_seconds
+        self.pause_start = None
+        self.current_time = self.stopwatch_start
 
-notes = []  # Initialize an empty list for notes
-
-# Initialize the current time to the stopwatch start time
-current_time = stopwatch_start
-
-while True:
-    # Display the current stopwatch time in the HH:MM:SS format
-    stopwatch_current = time.time() - stopwatch_start
-    stopwatch_struct_time = time.gmtime(stopwatch_current)
-    stopwatch_formatted = time.strftime("%H:%M:%S", stopwatch_struct_time)
-    print("Stopwatch: {}".format(stopwatch_formatted))
+    def add_note(self, event=None):
+        if self.pause_start:
+            note_time = self.pause_start - self.stopwatch_start
+        else:
+            note_time = time.time() - self.stopwatch_start
+        note_struct_time = time.gmtime(note_time)
+        note_formatted = time.strftime("%H:%M:%S", note_struct_time)
+        note_text = self.note_entry.get()
+        self.notes.append((note_formatted, note_text))
+        self.note_entry.delete(0, tk.END)
+        self.update_note_text()
     
-    # Ask the user if they want to add a note, adjust the time, or continue the stopwatch
-    user_input = input("Press 'n' to add a note, 't' to adjust the time, 'q' to quit, or any other key to continue: ")
+    def update_note_text(self):
+        self.note_text.config(state="normal")
+        self.note_text.delete("1.0", tk.END)
+        for note in self.notes:
+            self.note_text.insert(tk.END, note[0] + " - " + note[1] + "\n")
+        self.note_text.config(state="disabled")
     
-    # Handle the user's input
-    if user_input.lower() == 'n':
-        # Record the current time as the time when the user started inputting data
-        current_time = time.time()
-        # If the user wants to add a note, ask them for the note text and append it to the notes list along with the current stopwatch time
-        note_text = input("Enter note text: ")
-        notes.append((stopwatch_formatted, note_text))
-        # Resume the timer from the current time after the user is finished inputting data
-        stopwatch_start += time.time() - current_time
-        current_time = stopwatch_start
-    elif user_input.lower() == 't':
-        # Record the current time as the time when the user started inputting data
-        current_time = time.time()
-        # If the user wants to adjust the start time, ask them for the new start time
-        while True:
-            new_start_time_input = input("Enter the new start time in HH:MM:SS format: ")
-            try:
-                # Attempt to parse the user's input as a time object in seconds
-                new_start_time = time.mktime(time.strptime(new_start_time_input, "%H:%M:%S"))
-                stopwatch_start = time.time() - new_start_time
-                stopwatch_start += 3600
-                break  # Exit the loop if the input is valid
-            except ValueError:
-                # If the user's input is not in the correct format, give them another chance to retry or return to the main menu
-                retry_input = input("Invalid format. Do you wantf to retry (y) or return to main menu (m)? ")
-                if retry_input.lower() == 'm':
-                    # If the user wants to return to the main menu, break out of the loop and continue the stopwatch
-                    break
-        # Resume the timer from the current time after the user is finished inputting data
-        stopwatch_start += time.time() - current_time
-        current_time = stopwatch_start
-    elif user_input.lower() == 'q':
-        # If the user wants to quit, break out of the loop
-        break
-    else:
-        # If the user enters any other key, continue the stopwatch
-        pass
-        # Wait for a short amount of time (0.1 seconds) before looping again
-        time.sleep(0.1)
+    def pause_stopwatch(self):
+        if self.pause_start:
+            self.stopwatch_start += time.time() - self.pause_start
+            self.pause_start = None
+            self.pause_button.config(text="Pause")
+        else:
+            self.pause_start = time.time()
+            self.pause_button.config(text="Resume")
 
-#Print out the notes and the stopwatch times when each note was taken
-print("Notes:\n")
-for note in notes:
-    print("{} - {}".format(note[0], note[1]))
+root = tk.Tk()
+gui = StopwatchGUI(root)
+root.mainloop()
