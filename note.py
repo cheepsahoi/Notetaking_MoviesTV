@@ -19,6 +19,8 @@ class StopwatchGUI:
         self.note_label.pack(pady=10)
         self.note_text = tk.Text(master, height=10, width=50)
         self.note_text.pack(pady=10)
+        self.copy_button = tk.Button(master, text="Copy Notes to Clipboard", command=self.copy_notes)
+        self.copy_button.pack(pady=10)
         self.note_text.config(state="disabled")
         self.note_entry = tk.Entry(master, width=50)
         self.note_entry.pack(pady=10)
@@ -55,6 +57,13 @@ class StopwatchGUI:
         self.stopwatch_start = time.time() - time_seconds
         self.pause_start = None
         self.current_time = self.stopwatch_start
+
+    def copy_notes(self):
+        notes_str = ""
+        for note in self.notes:
+            notes_str += note[0] + " - " + note[1] + "\n"
+        self.master.clipboard_clear()
+        self.master.clipboard_append(notes_str)
 
     def add_note(self, event=None):
         if self.pause_start:
