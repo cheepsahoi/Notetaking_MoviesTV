@@ -16,8 +16,7 @@ class StopwatchGUI:
         self.note_text.config(state="disabled")
         self.note_entry = tk.Entry(master, width=50)
         self.note_entry.pack(pady=10)
-        self.note_button = tk.Button(master, text="Add Note", command=self.add_note)
-        self.note_button.pack(pady=10)
+        self.note_entry.bind('<Return>', self.add_note)
         self.pause_button = tk.Button(master, text="Pause", command=self.pause_stopwatch)
         self.pause_button.pack(pady=10)
         
@@ -40,7 +39,7 @@ class StopwatchGUI:
         self.stopwatch_label.config(text="Stopwatch: " + stopwatch_formatted)
         self.master.after(100, self.update_stopwatch_label)
     
-    def add_note(self):
+    def add_note(self, event=None):
         if self.pause_start:
             note_time = self.pause_start - self.stopwatch_start
         else:
