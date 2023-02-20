@@ -1,4 +1,4 @@
-('/Users/rob/Nextcloud/Odin/Notetaking_MoviesTV/build/note/PYZ-00.pyz',
+('/Users/rob/Nextcloud/Repos/Notetaking_MoviesTV/build/note/PYZ-00.pyz',
  [('_compat_pickle',
    '/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/_compat_pickle.py',
    'PYMODULE'),

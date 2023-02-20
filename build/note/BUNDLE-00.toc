@@ -1,0 +1,3 @@
+([('note',
+   '/Users/rob/Nextcloud/Repos/Notetaking_MoviesTV/dist/note',
+   'EXECUTABLE')],)

@@ -15,9 +15,9 @@ Click the "Set Time" button and enter the desired time in the format of "HH:MM:S
 
 Click the "Pause" button to pause the stopwatch at any time. The button will change to "Resume". Click it again to resume timing.
 
-If you want to take notes during timing, enter the note in the entry field at the bottom and press Enter. 
+If you want to take notes during timing, enter the note in the entry field at the bottom and press Enter.
 The note will be added to the notes list displayed in the "Notes:" text box.
 
-To copy all the notes to the clipboard, click the "Copy Notes to Clipboard" button. 
+To copy all the notes to the clipboard, click the "Copy Notes to Clipboard" button.
 The notes will be copied to the clipboard, in chronological order from earliest to latest per time,
 and can be pasted into any other application.
