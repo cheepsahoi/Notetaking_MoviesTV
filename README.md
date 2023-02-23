@@ -3,7 +3,12 @@
 Small python script to take notes while watching a film that includes timestamps for review later on
 
 Launch the app by opening the folder for your OS (Windows or MacOS)
-Then run 'Start-Notes'
+
+For Windows:
+    Open folder 'note' then run 'Start-Note.exe'
+
+For MacOS:
+    Run 'Start-Note'
 
 The Stopwatch GUI window will appear on your screen. The window has several sections:
 
